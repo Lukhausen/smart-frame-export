@@ -1,0 +1,209 @@
+/* FILE: App.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5;
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background-color: #001529;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+}
+
+.app-header .ant-typography {
+  line-height: 64px;
+}
+
+.app-content {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-dropzone {
+  width: 100%;
+  max-width: 600px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.video-player-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  display: block;
+  background-color: #000;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.controls-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeline-section {
+  width: 100%;
+}
+
+.timeline-section .ant-slider {
+  margin: 8px 0 2px 0;
+}
+
+/* Styles for the Global Heatmap Canvas */
+.global-heatmap-canvas-container {
+  width: 100%;
+  height: 20px; /* Matches GLOBAL_HEATMAP_HEIGHT in JS */
+  background-color: #ddd; /* Fallback background */
+  border-radius: 3px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative; /* For the focused-range-indicator */
+  cursor: pointer;
+}
+
+.global-heatmap-canvas {
+  display: block; /* Remove extra space below canvas */
+  width: 100%; /* Canvas style width to fill container */
+  height: 100%;
+}
+
+.focused-range-indicator {
+  position: absolute;
+  border: 2px solid rgba(25, 118, 210, 0.8); /* More opaque */
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 3;
+  border-radius: 2px; /* Match parent container */
+  /* top, left, width, height are set by inline style */
+}
+
+
+.time-display {
+  align-self: flex-end;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.action-buttons-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .app-content { padding: 16px; }
+  .video-player-container { padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .app-header .ant-typography { font-size: 1.2em; }
+  .action-buttons-group { flex-direction: column; }
+  .action-buttons-group .ant-btn { width: 100%; }
+  .time-display { align-self: center; margin-top: 8px; }
+  .video-element { max-height: 50vh; }
+}
+
+.analysis-video-element {
+  display: none !important;
+}
+
+.focused-heatmap-wrapper {
+  margin-top: 8px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.focused-heatmap-container {
+  display: flex;
+  flex-direction: row;
+  /* For PRIORITY_ANALYSIS_RADIUS = 5 (11 segments) */
+  /* Approx segment width 15px + 2px gap * 11 segments. */
+  width: 187px; /* (15px + 2px) * 11 */
+  height: 20px;
+  background-color: #f9f9f9;
+  border-radius: 3px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.focused-heatmap-segment {
+  flex-grow: 1;
+  flex-basis: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: background-color 0.1s ease-out, transform 0.1s ease-out;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: #e0e0e0; /* Default if no specific color set */
+  box-sizing: border-box; /* Include border in width/height */
+}
+
+.focused-heatmap-segment:hover {
+  transform: scaleY(1.1);
+}
+
+/* Highlight for the best frame within the local focused view */
+.focused-heatmap-segment-local-best {
+  border: 2px solid darkorange;
+  /* Ensure border doesn't make it jump if other segments don't have one */
+}
+
+
+.focused-heatmap-caret {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+}.focused-heatmap-segment-local-best {
+  border: 2px solid darkorange; /* Or your preferred highlight color */
+  /* Ensure border doesn't make it jump if other segments don't have one by default */
+  /* box-sizing: border-box; is already on .focused-heatmap-segment which is good */
+}
