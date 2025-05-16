@@ -71,7 +71,7 @@ body {
   background-color: #000;
   border-radius: 4px;
   margin-bottom: 16px;
-  cursor: pointer;
+  /* cursor: pointer; /* Removed as native controls are primary for play/pause click */
 }
 
 .controls-wrapper {
@@ -86,35 +86,35 @@ body {
 }
 
 .timeline-section .ant-slider {
-  margin: 8px 0 2px 0;
+  margin: 8px 0 2px 0; /* Kept in case slider is re-added, but it's removed now */
 }
 
 /* Styles for the Global Heatmap Canvas */
 .global-heatmap-canvas-container {
   width: 100%;
   height: 20px; /* Matches GLOBAL_HEATMAP_HEIGHT in JS */
-  background-color: #ddd; /* Fallback background */
+  background-color: #ddd; 
   border-radius: 3px;
   margin-top: 4px;
   margin-bottom: 12px;
   overflow: hidden;
-  position: relative; /* For the focused-range-indicator */
+  position: relative; 
   cursor: pointer;
 }
 
 .global-heatmap-canvas {
-  display: block; /* Remove extra space below canvas */
-  width: 100%; /* Canvas style width to fill container */
+  display: block; 
+  width: 100%; 
   height: 100%;
 }
 
 .focused-range-indicator {
   position: absolute;
-  border: 2px solid rgba(25, 118, 210, 0.8); /* More opaque */
+  border: 2px solid rgba(25, 118, 210, 0.7); /* Slightly less opaque */
   box-sizing: border-box;
   pointer-events: none;
   z-index: 3;
-  border-radius: 2px; /* Match parent container */
+  border-radius: 2px; 
   /* top, left, width, height are set by inline style */
 }
 
@@ -151,22 +151,24 @@ body {
 
 .focused-heatmap-wrapper {
   margin-top: 8px;
-  padding: 0 10px;
+  padding: 0; /* Allow container to take full width of wrapper */
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Stack InputNumber and heatmap */
+  align-items: center; /* Center the InputNumber and heatmap container */
+  gap: 8px; /* Space between InputNumber and heatmap container */
 }
 
 .focused-heatmap-container {
   display: flex;
   flex-direction: row;
-  /* For PRIORITY_ANALYSIS_RADIUS = 5 (11 segments) */
-  /* Approx segment width 15px + 2px gap * 11 segments. */
-  width: 187px; /* (15px + 2px) * 11 */
+  width: 100%; /* Takes full width of its parent (.focused-heatmap-wrapper) */
+  max-width: 400px; /* Optional: Set a max-width for very wide screens */
   height: 20px;
   background-color: #f9f9f9;
   border-radius: 3px;
   padding: 2px;
   gap: 2px;
+  box-sizing: border-box;
 }
 
 .focused-heatmap-segment {
@@ -174,24 +176,24 @@ body {
   flex-basis: 0;
   height: 100%;
   border-radius: 2px;
-  transition: background-color 0.1s ease-out, transform 0.1s ease-out;
+  transition: background-color 0.1s ease-out, transform 0.1s ease-out, border-color 0.1s ease-out;
   cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  background-color: #e0e0e0; /* Default if no specific color set */
-  box-sizing: border-box; /* Include border in width/height */
+  background-color: #e0e0e0; 
+  box-sizing: border-box;
+  border: 1px solid transparent; /* Base border to prevent layout shifts */
 }
 
 .focused-heatmap-segment:hover {
   transform: scaleY(1.1);
+  border-color: #aaa;
 }
 
-/* Highlight for the best frame within the local focused view */
 .focused-heatmap-segment-local-best {
   border: 2px solid darkorange;
-  /* Ensure border doesn't make it jump if other segments don't have one */
 }
 
 
@@ -199,11 +201,7 @@ body {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
   position: absolute;
-  bottom: -14px;
+  bottom: -14px; /* Adjusted if needed based on segment height */
   left: 50%;
   transform: translateX(-50%);
-}.focused-heatmap-segment-local-best {
-  border: 2px solid darkorange; /* Or your preferred highlight color */
-  /* Ensure border doesn't make it jump if other segments don't have one by default */
-  /* box-sizing: border-box; is already on .focused-heatmap-segment which is good */
 }
